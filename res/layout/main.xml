@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	      android:name="main"
+	      android:orientation="vertical"
+	      android:layout_width="fill_parent"
+	      android:layout_height="fill_parent">
+  <TextView android:id="@+id/text_view"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1"
+	    android:typeface="monospace"/>
+  <TableLayout android:layout_height="wrap_content"
+	       android:layout_width="fill_parent"
+	       android:layout_gravity="bottom"
+	       android:stretchColumns="0,1,2,3">
+    <TableRow>
+      <Button android:text="Q"
+	      android:onClick="onClick"/>
+      <Button android:text="W"
+	      android:onClick="onClick"/>
+      <Button android:text="E"
+	      android:onClick="onClick"/>
+    </TableRow>
+    <TableRow>
+      <Button android:text="A"
+	      android:onClick="onClick"/>
+      <Button android:text="S"
+	      android:onClick="onClick"/>
+      <Button android:text="D"
+	      android:onClick="onClick"/>
+      <Button android:text="T"
+	      android:onClick="onClick"/>
+    </TableRow>
+    <TableRow>
+      <Button android:text="Z"
+	      android:onClick="onClick"/>
+      <Button android:text="X"
+	      android:onClick="onClick"/>
+      <Button android:text="C"
+	      android:onClick="onClick"/>
+    </TableRow>
+  </TableLayout>
+</LinearLayout>
