@@ -3,7 +3,8 @@
 (require "util.scm")
 
 (define *rows* 16)
-(define *cols* 32)
+(define *cols* 34)
+
 (define *inputs* '((Q (-1 -1)) (W (-1  0)) (E (-1  1))
                    (A ( 0 -1)) (S ( 0  0)) (D ( 0  1))
 		   (Z ( 1 -1)) (X ( 1  0)) (C ( 1  1))))
@@ -34,19 +35,20 @@
 	 (moves (map (lambda (offset) (combine pos offset)) offsets)))
     (apply min-key (lambda (move) (manhattan-dist move *player*)) moves)))
 
-(define (dead-robot? pos)
+(define (scrap? pos)
   (> (count (lambda (robot) (equal? pos robot)) *robots*) 1))
 
 (define (move-robot pos)
-  (if (dead-robot? pos) pos (best-move pos)))
+  (if (scrap? pos) pos (best-move pos)))
 
 (define (move-robots)
   (set! *robots* (map move-robot *robots*)))
 
 (define (draw-pos pos)
-  (cond ((dead-robot? pos) "#")
-        ((member pos *robots*) "A")
-        ((equal? pos *player*) "@")
+  (cond ((and (equal? pos *player*) (member pos *robots*)) "X")
+        ((equal? pos *player*) "O")
+        ((scrap? pos) "S")
+        ((member pos *robots*) "R")
         (else " ")))
 
 (define (draw-row row)
@@ -56,14 +58,14 @@
 (define (draw-map)
   (set-output (make-string (+ *cols* 2) #\-) "\n"
               (apply str (map draw-row (iota *rows*)))
-              (make-string (+ *cols* 2) #\-) "\n"
-              "QWE/ASD/ZXC to move, T to teleport\n"))
+              (make-string (+ *cols* 2) #\-) "\n"))
 
 (define (new-game)
   (set! *player* (list (/ *rows* 2) (/ *cols* 2)))
-  (set! *robots* (repeatedly 6 rand-pos))
+  (set! *robots* (repeatedly 10 rand-pos))
   (set! *game-over* #f)
-  (draw-map))
+  (draw-map)
+  (append-output "QWE/ASD/ZXC to move, T to teleport"))
 
 (define (end-game msg)
   (append-output msg)
@@ -73,6 +75,7 @@
   (unless *game-over*
     (move-player input)
     (move-robots)
-    (cond ((every dead-robot? *robots*) (end-game "Player wins!"))
+    (draw-map)
+    (cond ((every scrap? *robots*) (end-game "Player wins!"))
           ((member *player* *robots*) (end-game "Player loses!"))
-          (else (draw-map)))))
+          (else (append-output "QWE/ASD/ZXC to move, T to teleport")))))
