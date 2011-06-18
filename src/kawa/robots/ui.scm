@@ -11,10 +11,10 @@
   (set! *text-view* ((this):findViewById kawa.robots.R$id:text_view))
   (new-game))
  ((onClick v ::android.view.View)
-  (process-input (read-string (as android.widget.Button v):text))))
+  (process-input (as android.widget.Button v):text)))
 
-(define (append-output . xs)
-  (*text-view*:append (apply str xs)))
+(define (append-output s)
+  (*text-view*:append s))
 
-(define (set-output . xs)
-  (*text-view*:setText (as String (apply str xs))))
+(define (set-output s ::String)
+  (*text-view*:setText s))
