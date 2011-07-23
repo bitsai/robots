@@ -1,6 +1,5 @@
 (require 'android-defs)
-(require "engine.scm")
-(require "util.scm")
+(require "robots.scm")
 
 (define *text-view* ::android.widget.TextView #!null)
 
@@ -16,5 +15,5 @@
 (define (append-output s)
   (*text-view*:append s))
 
-(define (set-output s ::String)
-  (*text-view*:setText s))
+(define (set-output s)
+  (*text-view*:setText (as String s)))
